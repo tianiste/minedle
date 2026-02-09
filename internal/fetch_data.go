@@ -29,6 +29,7 @@ func DownloadDir(apiURL, localDir string) error {
 		return err
 	}
 	req.Header.Set("Accept", "application/vnd.github+json")
+	req.Header.Set("Authorization", "Bearer "+os.Getenv("GITHUB_TOKEN"))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -68,6 +69,11 @@ func DownloadDir(apiURL, localDir string) error {
 }
 
 func downloadFile(url, dest string) error {
+	if _, err := os.Stat(dest); err == nil {
+		fmt.Println("File already exists, skipping:", dest)
+		return nil
+	}
+
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
