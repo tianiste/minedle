@@ -63,11 +63,14 @@ func getCraftableItems(version string) (map[string]bool, error) {
 	return craftable, nil
 }
 
-func parseMinecraftData(version string) (map[int]*Block, error) {
-	basePath := filepath.Join("minecraft-data", "data", "pc", version)
+func ParseMinecraftData(version string) (map[int]*Block, error) {
+	basePath := filepath.Join("data", "pc", version)
 
 	var rawBlocks []Block
-	loadJSON(filepath.Join(basePath, "blocks.json"), &rawBlocks)
+	err := loadJSON(filepath.Join(basePath, "blocks.json"), &rawBlocks)
+	if err != nil {
+		return nil, err
+	}
 
 	craftable, _ := getCraftableItems(version)
 

@@ -16,5 +16,12 @@ func main() {
 		panic(err)
 	}
 
+	data, err := internal.ParseMinecraftData("1.21.1")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(data)
+
 	fmt.Println("Download complete.")
 }
